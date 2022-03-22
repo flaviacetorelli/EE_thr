@@ -12,3 +12,5 @@ To install:
     cmsenv
     scramv1 b -j 20
 
+See this repo: https://github.com/flaviacetorelli/EcalPulseDumper
+for the inputs.
