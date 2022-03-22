@@ -24,7 +24,7 @@ def Average(lst):
 #outdir=args.outdir
 thrs = [6, 10, 14] #select the thrs u want to apply. Upper cut is set to 80, see below.
 Ecut = 40 #80 before
-filename = "PROVONA_notagli.root" #args.inputfile
+filename = "PROVONA_notagli_old.root" #args.inputfile
 outfolder = "/eos/user/f/fcetorel/www/PhiSym/thr_kfactor/FitRange14-60expo_Ecut40_10kEv_1ktoys_only1forAll/"
 
 DEBUG = False
@@ -55,9 +55,9 @@ fun.SetParameter(0,fun.GetParameter(0))
 fun.SetParameter(1,fun.GetParameter(1))
 c.Update()
 c.SaveAs(outfolder+"Energy_histos_expo_14-60.png")
-hk6 = R.TH1F("hk6","hk6", 100 ,0, 5)
-hk10 = R.TH1F("hk10","hk10", 100 ,0, 5)
-hk14 = R.TH1F("hk14","hk14", 100 ,0, 5)
+hk6 = R.TH1F("h6","6", 100 ,0, 3)
+hk10 = R.TH1F("h10","10", 100 ,0, 3)
+hk14 = R.TH1F("h14","14", 100 ,0, 3)
 
 
 #generating toys wrt to expo function above
@@ -151,11 +151,24 @@ for t in range(0,1000):
 
 #finally plot the k factor histo
 khisto = [hk6, hk10, hk14]
-for kh in khisto:
-  c2 =R.TCanvas()
-  c2.cd()
-  kh.Draw("histo")
-  kh.SetStats(1)  
-  c2.SaveAs(outfolder+"histo_"+kh.GetName()+".png")
-#print Et
+#for kh in khisto:
+#  c2 =R.TCanvas()
+#  c2.cd()
+#  kh.Draw("histo")
+#  kh.SetStats(1)  
+#  c2.SaveAs(outfolder+"histo_"+kh.GetName()+".png")
+##print Et
+khisto = [hk6, hk10, hk14]
+
+with open("output_rms_0.txt","w") as of:
+  print ("THR   ,  Mean   ,  err mean")
+  of.write("THR   ,  Mean   ,  err mean\n")
+  for kh in khisto:
+    c2 =R.TCanvas()
+    c2.cd()
+    kh.Draw("histo")
+    kh.SetStats(1)
+    print (kh.GetTitle(), kh.GetMean(), kh.GetMeanError())
+    of.write("{},{:.2f},{:.2f}\n".format(int(kh.GetTitle()), kh.GetMean(), kh.GetMeanError()))
+    c2.SaveAs(outfolder+"histo_"+kh.GetName()+".png")
 

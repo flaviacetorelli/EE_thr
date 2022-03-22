@@ -66,9 +66,9 @@ fun.SetParameter(0,fun.GetParameter(0))
 fun.SetParameter(1,fun.GetParameter(1))
 c.Update()
 c.SaveAs(outfolder+"Energy_histos_expo_14-60.png")
-hk6 = R.TH1F("hk6","6", 100 ,0, 5)
-hk10 = R.TH1F("hk10","10", 100 ,0, 5)
-hk14 = R.TH1F("hk14","14", 100 ,0, 5)
+hk6 = R.TH1F("hk6","6", 100 ,0, 1.5)
+hk10 = R.TH1F("hk10","10", 100 ,0.5, 2)
+hk14 = R.TH1F("hk14","14", 100 ,1, 2.5)
 
 
 gnoise = R.TF1 ("gnoise","gaus", 0,200) #gaussian smearing
@@ -85,7 +85,7 @@ for t in range(0,1000):
   allhisto = [hrand_m2, hrand_m1 ,hrand,hrand_p1,hrand_p2]
   
   #generate nominal and miscalibrated histos
-  for i in range(0,100):
+  for i in range(0,10000):
     etoy = fun.GetRandom() #toy energy from expo
     
     gnoise.SetParameters(1, etoy, rms )
